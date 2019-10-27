@@ -11,7 +11,7 @@ var Terminal = Terminal || function(cmdLineContainer, outputContainer) {
   var output_ = document.querySelector(outputContainer);
 
   const CMDS_ = [
-    'cat', 'clear', 'clock', 'date', 'echo', 'help', 'uname', 'whoami'
+    'cat', 'clear', 'clock', 'date', 'echo', 'help', 'uname', 'whoami', 'resume'
   ];
   
   var fs_ = null;
@@ -133,6 +133,11 @@ var Terminal = Terminal || function(cmdLineContainer, outputContainer) {
         case 'whoami':
           output("Hi, I am Ayush, an 11th grader at Thomas Jefferson High School for Science and Technology.");
           break;
+		case 'resume':
+			var a = document.createElement('a');
+			output('<a href="resume.pdf" target="_blank" download id="download" hidden></a>');
+			document.getElementById('download').click();
+			break;
         default:
           if (cmd) {
             output(cmd + ': command not found');
