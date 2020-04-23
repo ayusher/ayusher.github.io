@@ -11,7 +11,7 @@ var Terminal = Terminal || function(cmdLineContainer, outputContainer) {
   var output_ = document.querySelector(outputContainer);
 
   const CMDS_ = [
-    'cat', 'clear', 'clock', 'date', 'echo', 'help', 'uname', 'whoami', 'resume'
+    'cat', 'clear', 'clock', 'date', 'echo', 'help', 'uname', 'whoami', 'resume', 'fun'
   ];
   
   var fs_ = null;
@@ -131,12 +131,15 @@ var Terminal = Terminal || function(cmdLineContainer, outputContainer) {
           output(navigator.appVersion);
           break;
         case 'whoami':
-          output("Hi, I am Ayush, an 11th grader at Thomas Jefferson High School for Science and Technology.");
+		  output('<img align="left" src="face.jpg" style="width:20vh; height:auto; padding: 0px 10px 20px 0px"><p style="line-height:1.5">Hi, I am Ayush Rautwar, a junior at Thomas Jefferson High School for Science and Technology. My passion is aerospace engineering. As an avid tinkerer, I often spend weekends refining my programming skills, learning about new technologies, and building new gadgets. Please take a look around my website to learn more about my interests and goals!</p><br><p>High School: TJHSST</p><br><p>Age: 16</p><br><p>Passion (Goal College Path): Computer Science and Aerospace Engineering</p><br><p>Hobbies: Programming, Gardening, Biking, Eating, Being Cool</p><br><p>Philosophy: Low stress -> fun life -> high productivity</p>');
           break;
 		case 'resume':
 			var a = document.createElement('a');
 			output('<a href="resume.pdf" target="_blank" download id="download" hidden></a>');
 			document.getElementById('download').click();
+			break;
+		case 'fun':
+			output("Typing Speed: 85 WPM");
 			break;
         default:
           if (cmd) {
