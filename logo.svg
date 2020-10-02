@@ -1,14 +1,20 @@
-<svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
  <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
  <g>
   <title>background</title>
-  <rect fill="#000000" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+  <rect fill="#fff" id="canvas_background" height="602" width="802" y="-1" x="-1"/>
   <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
    <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
   </g>
  </g>
  <g>
   <title>Layer 1</title>
-  <text stroke="#000" transform="matrix(9.457472801208496,0,0,9.457472801208496,-1006.439263343811,-925.5646796822548) " xml:space="preserve" text-anchor="start" font-family="'Palatino Linotype', 'Book Antiqua', Palatino, serif" font-size="24" id="svg_1" y="127.561745" x="116.962324" stroke-width="0" fill="#ffffff">A R</text>
+  <ellipse stroke="#007fff" ry="100" rx="100" id="svg_1" cy="289.45312" cx="256.5" stroke-width="99" fill="#fff"/>
+  <rect stroke="#007fff" id="svg_2" height="301" width="100" y="143.45313" x="308.5" stroke-width="0" fill="#007fff"/>
+  <rect stroke="#007fff" id="svg_3" height="301" width="100" y="143.45313" x="427.86499" stroke-width="0" fill="#007fff"/>
+  <ellipse stroke="#007fff" ry="61" rx="61" id="svg_4" cy="253.45312" cx="541.5" stroke-width="99" fill="#fff"/>
+  <rect stroke="#007fff" transform="rotate(-45 539.9128417968748,357.802001953125) " id="svg_5" height="149.76087" width="100" y="282.92155" x="489.91284" stroke-width="0" fill="#007fff"/>
+  <path stroke="#007fff" id="svg_7" d="m588.0724,445.27589l0,-110.00002l110,110.00002l-110,0z" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#007fff"/>
+  <rect stroke="#007fff" id="svg_8" height="61" width="66" y="384.45313" x="558.5" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#007fff"/>
  </g>
 </svg>
