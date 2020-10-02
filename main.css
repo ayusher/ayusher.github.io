@@ -15,7 +15,8 @@
 }
 
 .name{
-  font-size: 50px;
+  font-size: 7.35rem;
+  margin: 0 0;
 }
 
 .info {
@@ -32,16 +33,31 @@
   transform: translate(0, -50%);
 }
 
+@media (max-width: 850px) {
+  .info {
+    font-size: 25px;
+  }
+  .name{
+    font-size: 85px;
+    margin: 0 0;
+  }
+}
 @media (max-width: 600px) {
   .info {
-    font-size: 30px;
-    letter-spacing: 0.2em;
+    font-size: 15px;
+  }
+  .name{
+    font-size: 55px;
+    margin: 0 0;
   }
 }
 @media (max-width: 400px) {
   .info {
     margin-top: 20px;
-    font-size: 24px;
-    letter-spacing: 0.1em;
+    font-size: 10px;
+  }
+  .name{
+    font-size: 40px;
+    margin: 0 0;
   }
 }
