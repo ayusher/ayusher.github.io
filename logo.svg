@@ -1,20 +1,16 @@
-<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
  <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+
  <g>
   <title>background</title>
-  <rect fill="#fff" id="canvas_background" height="602" width="802" y="-1" x="-1"/>
-  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
-   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  <rect fill="none" id="canvas_background" height="402" width="402" y="-1" x="-1"/>
+  <g display="none" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%" id="svg_6"/>
   </g>
  </g>
  <g>
   <title>Layer 1</title>
-  <ellipse stroke="#007fff" ry="100" rx="100" id="svg_1" cy="289.45312" cx="256.5" stroke-width="99" fill="#fff"/>
-  <rect stroke="#007fff" id="svg_2" height="301" width="100" y="143.45313" x="308.5" stroke-width="0" fill="#007fff"/>
-  <rect stroke="#007fff" id="svg_3" height="301" width="100" y="143.45313" x="427.86499" stroke-width="0" fill="#007fff"/>
-  <ellipse stroke="#007fff" ry="61" rx="61" id="svg_4" cy="253.45312" cx="541.5" stroke-width="99" fill="#fff"/>
-  <rect stroke="#007fff" transform="rotate(-45 539.9128417968748,357.802001953125) " id="svg_5" height="149.76087" width="100" y="282.92155" x="489.91284" stroke-width="0" fill="#007fff"/>
-  <path stroke="#007fff" id="svg_7" d="m588.0724,445.27589l0,-110.00002l110,110.00002l-110,0z" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#007fff"/>
-  <rect stroke="#007fff" id="svg_8" height="61" width="66" y="384.45313" x="558.5" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#007fff"/>
+  <ellipse stroke="#007fff" ry="100" rx="100" id="svg_1" cy="202.18047" cx="202.86369" stroke-width="99" fill="none"/>
+  <rect stroke="#007fff" id="svg_2" height="300.99997" width="100" y="56.18048" x="254.86369" stroke-width="0" fill="#007fff"/>
  </g>
 </svg>
