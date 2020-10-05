@@ -57,7 +57,7 @@ a{
 }
 @media (max-width: 600px) {
   .info {
-    font-size: 15px;
+    font-size: 20px;
   }
   .name{
     font-size: 55px;
@@ -66,8 +66,7 @@ a{
 }
 @media (max-width: 400px) {
   .info {
-    margin-top: 20px;
-    font-size: 10px;
+    font-size: 20px;
   }
   .name{
     font-size: 40px;
