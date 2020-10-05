@@ -9,16 +9,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@700&display=swap" rel="stylesheet">
   <script src='fontawesome.js'></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  
+  <link rel="stylesheet" href="buttons.css">
   <link rel="stylesheet" href="main.css">
+  
   <script>
     function load(){
-      document.getElementById("bod").style = "background-color:black; height: 100vh;";
+      document.getElementById("bod").style = "background-color: black; height: 100vh;";
+    }
+    function boost(){
+      if(document.getElementById("bod").style.getPropertyValue("-webkit-filter")=="invert(100%)"){
+        document.getElementById("bod").style.setProperty("-webkit-filter", "invert(0%)");
+        document.getElementById("bod").style.setProperty("filter", "invert(0%)");
+      }else{
+        document.getElementById("bod").style.setProperty("-webkit-filter", "invert(100%)");
+        document.getElementById("bod").style.setProperty("filter", "invert(100%)");
+      }
+      
     }
   </script>
   <script src="index.js"></script>
 </head>
-<body id="bod" style="background-color:black; height: 100vh; -webkit-filter: blur(20px); filter: blur(20px);">
+<body id="bod" ondblclick="boost();" style="background-color:black; height: 100vh; -webkit-filter: blur(20px); filter: blur(20px);">
   <div class="wrapper">
     <div class="text">
       <i class="info name">Ayush Rautwar</i>
@@ -32,11 +43,17 @@
       <h1 class="info">
         <a style="color: #fff;" target="_blank" href="https://www.facebook.com/ayush.rautwar"><i class="fa fa-facebook"></i></a>
         &nbsp; &nbsp;
-        <a style="color: #fff;" target="_blank" href="https://www.linkedin.com/in/ayush-rautwar-4786ba180/"><i class="fa fa-linkedin"></i></a>
+        <a style="color: #fff;" target="_blank" href="https://www.linkedin.com/in/ayush-rautwar/"><i class="fa fa-linkedin"></i></a>
         &nbsp; &nbsp;
         <a style="color: #fff;" target="_blank" href="https://www.github.com/ayusher/"><i class="fa fa-github"></i></a>
         &nbsp; &nbsp;
         <a style="color: #fff;" target="_blank" href="https://www.strava.com/athletes/46907163"><i class="fab fa-strava"></i></a>
+      </h1>
+      <h1 class="info">
+        <div class="button" id="button-2">
+          <div id="slide"></div>
+          <a style="text-decoration: none;" target="_blank" href="ayush_rautwar_resume.pdf">Resume</a>
+        </div>
       </h1>
     </div>
   </div>

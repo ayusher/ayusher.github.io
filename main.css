@@ -2,6 +2,13 @@ body {
   margin: 0;
   padding: 0;
 }
+button{
+  border-color: white; 
+  background-color: black; 
+  color: white;
+  outline:none;
+  border: 0;
+}
 .wrapper {
   position: fixed;
   top: 0;
@@ -16,7 +23,9 @@ body {
   text-rendering: optimizeLegibility;
   height: 100%;
 }
-
+a{
+  color: white;
+}
 .name{
   font-size: 7.35rem;
   margin: 0 0;
@@ -28,6 +37,7 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
+  margin-top: 0;
 }
 
 .text {
