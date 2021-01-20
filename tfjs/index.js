@@ -9,7 +9,8 @@ async function reval(t){
     var tick = document.getElementById(""+t+"f").value;
     var time = +new Date;
     var starttime = time-90*24*60*60;
-    url = "https://cors-anywhere.herokuapp.com/query1.finance.yahoo.com/v7/finance/chart/"+tick+"?symbol="+tick+"&interval=1d&period0="+starttime+"&period2="+time;
+    url = "https://gentle-flower-8de4.lambdacors.workers.dev?https://query1.finance.yahoo.com/v7/finance/chart/"+tick+"?symbol="+tick+"&interval=1d&period0="+starttime+"&period2="+time;
+    //url = "https://cors-anywhere.herokuapp.com/query1.finance.yahoo.com/v7/finance/chart/"+tick+"?symbol="+tick+"&interval=1d&period0="+starttime+"&period2="+time;
     let response = await fetch(url);
     var json;
     if (response.ok) { // if HTTP-status is 200-299
