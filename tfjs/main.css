@@ -5,6 +5,21 @@ body {
 h4 {
   color: white;
 }
+
+input:focus {
+  outline: none;
+}
+
+input {
+  font-family: 'Open Sans', sans-serif;
+  background-color: transparent; 
+  border: none; 
+  border-width:0px; 
+  box-shadow: none; 
+  width: calc(100% - 40px);
+  font-weight: bold;
+}
+
 .container {
   position: relative;
   height: 300px;
@@ -58,7 +73,6 @@ h4 {
   left: 20px;
   height: 5px;
   width: 150px;
-  bottom: 50px;
 }
 
 .emptybar {
