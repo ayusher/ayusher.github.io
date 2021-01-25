@@ -17,10 +17,23 @@ async function reval(t){
         // get the response body (the method explained below)
         json = await response.json();
     } else {
+        document.getElementById(""+(t)).children[1].children[1].style.width="0";
+        document.getElementById(""+(t)).children[1].children[2].textContent="Error";
+        document.getElementById(""+(t)).children[1].children[3].textContent="ticker not found";
+        document.getElementById(""+(t)).children[1].children[4].textContent="";
         return;
     }
-    l = json.chart.result[0].indicators.quote[0].close.slice(-30);
+    
+    l = json.chart.result[0].indicators.quote[0].close;
+    if (l.length<30){
+        document.getElementById(""+(t)).children[1].children[1].style.width="0";
+        document.getElementById(""+(t)).children[1].children[2].textContent="Error";
+        document.getElementById(""+(t)).children[1].children[3].textContent="30-day stock price history not found";
+        document.getElementById(""+(t)).children[1].children[4].textContent="";
+        return;
+    }
 
+    l = l.slice(-30);
     n = [0];
     //console.log(l);
     //console.log(l.length);
@@ -37,8 +50,8 @@ async function reval(t){
     //console.log(d2[ans]);
     document.getElementById(""+(t)).style.borderColor= d2[ans];
     document.getElementById(""+(t)).children[0].children[0].value=tick;
-    console.log(""+Math.round(out.arraySync()[ans]*100)+"%");
-    console.log(document.getElementById(""+(t)).children[1].children[1]);
+    //console.log(""+Math.round(out.arraySync()[ans]*100)+"%");
+    //console.log(document.getElementById(""+(t)).children[1].children[1]);
     var temp = ""+Math.round(out.arraySync()[ans]*100)+"%";
     document.getElementById(""+(t)).children[1].children[1].style.width=temp;
     document.getElementById(""+(t)).children[1].children[2].textContent=temp;
@@ -83,8 +96,8 @@ async function run_tickers(){
         //console.log(d2[ans]);
         document.getElementById(""+(i+1)).style.borderColor= d2[ans];
         document.getElementById(""+(i+1)).children[0].children[0].value=tickers[i];
-        console.log(""+Math.round(out.arraySync()[ans]*100)+"%");
-        console.log(document.getElementById(""+(i+1)).children[1].children[1]);
+        //console.log(""+Math.round(out.arraySync()[ans]*100)+"%");
+        //console.log(document.getElementById(""+(i+1)).children[1].children[1]);
         var temp = ""+Math.round(out.arraySync()[ans]*100)+"%";
         document.getElementById(""+(i+1)).children[1].children[1].style.width=temp;
         document.getElementById(""+(i+1)).children[1].children[2].textContent=temp;
