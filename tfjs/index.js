@@ -25,7 +25,7 @@ async function reval(t){
     }
     
     l = json.chart.result[0].indicators.quote[0].close;
-    if (l.length<30){
+    if (l==null || l.length<30){
         document.getElementById(""+(t)).children[1].children[1].style.width="0";
         document.getElementById(""+(t)).children[1].children[2].textContent="Error";
         document.getElementById(""+(t)).children[1].children[3].textContent="30-day stock price history not found";
