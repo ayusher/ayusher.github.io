@@ -53,13 +53,14 @@ async function reval(t){
     //console.log(""+Math.round(out.arraySync()[ans]*100)+"%");
     //console.log(document.getElementById(""+(t)).children[1].children[1]);
     var temparr = out.arraySync();
-    var m = Math.min(temparr);
-    var sum = m.reduce(function(a, b) { return a + b; }, 0)-m*temparr.length;
+    var m = Math.min(...temparr);
+    var sum = temparr.reduce(function(a, b) { return a + b; }, 0)-m*temparr.length;
+    //console.log(sum);
     for (var g = 0; g<temparr.length; g++){
         temparr[g] = (temparr[g]-m)/sum;
     }
 
-    var temp = ""+Math.round(temparr.arraySync()[ans]*100)+"%";
+    var temp = ""+Math.round(temparr[ans]*100)+"%";
     document.getElementById(""+(t)).children[1].children[1].style.width=temp;
     document.getElementById(""+(t)).children[1].children[2].textContent=temp;
     document.getElementById(""+(t)).children[1].children[3].textContent="confident";
@@ -105,7 +106,15 @@ async function run_tickers(){
         document.getElementById(""+(i+1)).children[0].children[0].value=tickers[i];
         //console.log(""+Math.round(out.arraySync()[ans]*100)+"%");
         //console.log(document.getElementById(""+(i+1)).children[1].children[1]);
-        var temp = ""+Math.round(out.arraySync()[ans]*100)+"%";
+        var temparr = out.arraySync();
+        var m = Math.min(...temparr);
+        var sum = temparr.reduce(function(a, b) { return a + b; }, 0)-m*temparr.length;
+        //console.log(sum);
+        for (var g = 0; g<temparr.length; g++){
+            temparr[g] = (temparr[g]-m)/sum;
+        }
+
+        var temp = ""+Math.round(temparr[ans]*100)+"%";
         document.getElementById(""+(i+1)).children[1].children[1].style.width=temp;
         document.getElementById(""+(i+1)).children[1].children[2].textContent=temp;
         document.getElementById(""+(i+1)).children[1].children[3].textContent="confident";
