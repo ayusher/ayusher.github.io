@@ -5,7 +5,7 @@ function tanh(x) {
 }
 
 async function reval(t){
-    const model = await tf.loadGraphModel('https://www.ayushrautwar.com/tfjs/model.json');
+    const model = await tf.loadGraphModel('https://www.ayushrautwar.com/tfjs/model/model.json');
     var tick = document.getElementById(""+t+"f").value;
     var time = +new Date;
     var starttime = time-90*24*60*60;
