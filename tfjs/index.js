@@ -52,7 +52,14 @@ async function reval(t){
     document.getElementById(""+(t)).children[0].children[0].value=tick;
     //console.log(""+Math.round(out.arraySync()[ans]*100)+"%");
     //console.log(document.getElementById(""+(t)).children[1].children[1]);
-    var temp = ""+Math.round(out.arraySync()[ans]*100)+"%";
+    var temparr = out.arraySync();
+    var m = Math.min(temparr);
+    var sum = m.reduce(function(a, b) { return a + b; }, 0)-m*temparr.length;
+    for (var g = 0; g<temparr.length; g++){
+        temparr[g] = (temparr[g]-m)/sum;
+    }
+
+    var temp = ""+Math.round(temparr.arraySync()[ans]*100)+"%";
     document.getElementById(""+(t)).children[1].children[1].style.width=temp;
     document.getElementById(""+(t)).children[1].children[2].textContent=temp;
     document.getElementById(""+(t)).children[1].children[3].textContent="confident";
