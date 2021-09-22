@@ -1,0 +1,123 @@
+<!--
+Copyright 2018 Google LLC. All Rights Reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+==============================================================================
+-->
+
+<!doctype html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Surmount AI NN Builder</title>
+  <link rel="icon" href="gradientlogo.png">
+  <link rel="stylesheet" href="main.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.5.1/dist/tfjs-vis.umd.min.js"></script>
+</head>
+
+<style>
+  .setting {
+    padding: 6px;
+  }
+
+  #trainModel {
+    margin-top: 12px;
+  }
+
+  .setting-label {
+    display: inline-block;
+    width: 12em;
+  }
+
+  .answer-correct {
+    color: green;
+  }
+
+  .answer-wrong {
+    color: red;
+  }
+</style>
+
+<body>
+  <div class='tfjs-example-container centered-container'>
+    <section class='title-area'>
+      <h1>Surmount AI Neural Network Builder</h1>
+      <p class='subtitle'>Train a model to trade stocks</p>
+    </section>
+    <section>
+      <p class='section-head'>Description</p>
+      <p>
+        This webapp trains a neural network to predict the price direction of a stock! You can now enhance your trading with the power of machine learning!
+      </p>
+    </section>
+
+    <div>
+      <section>
+        <p class='section-head'>Instructions</p>
+        <p>
+          Click the "Train Model" to start the model training button. You can edit the
+          parameters used to train the model as well.
+        </p>
+      </section>
+
+      <div class="controls with-rows">
+        <div class="settings">
+          <div class="setting">
+            <span class="setting-label">NN Type:</span>
+            <select id="rnnType">
+              <option value="Conv1D">Conv1D</option>
+              <option value="LSTM">LSTM</option>
+              <option value="SimpleRNN">SimpleRNN</option>
+            </select>
+          </div>
+          <div class="setting">
+            <span class="setting-label">Stock ticker:</span>
+            <input id="stock" value="AAPL"></input>
+          </div>
+          <div class="setting">
+            <span class="setting-label">Hidden Layer Size:</span>
+            <input id="hiddenSize" value="64"></input>
+          </div>
+          <div class="setting">
+            <span class="setting-label">Batch Size:</span>
+            <input id="batchSize" value="128"></input>
+          </div>
+          <div class="setting">
+            <span class="setting-label">Train Iterations:</span>
+            <input id="trainIterations" value="100"></input>
+          </div>
+        </div>
+
+        <div>
+          <span>
+            <button class="btn-primary" id="trainModel">Train Model</button>
+          </span>
+        </div>
+      </div>
+
+
+      <section>
+        <p class='section-head'>Training Progress</p>
+        <p id="trainStatus"></p>
+        <div class='with-cols'>
+          <div id="lossChart"></div>
+          <div id="accuracyChart"></div>
+          <!-- <div id="examplesPerSecCanvas"></div> -->
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+</body>
+
+<script src="index.js"></script>
