@@ -25,57 +25,59 @@
 
  
  async function generateData(invert, stock) {
-  var tick = stock;
-  //var ticks = stock.split(" ").join("").split(",");
-  console.log(tick);
+  //var tick = stock;
+  document.getElementById('stock').style["width"] = 9*document.getElementById('stock').value.length +"px";
+
+  var ticks = stock.split(" ").join("").split(",");
   var time = +new Date;
   time = Math.floor(time/1000);
   var starttime = Math.floor(time-10*365*24*60*60);
-  url = "https://gentle-flower-8de4.lambdacors.workers.dev?https://query1.finance.yahoo.com/v7/finance/chart/"+tick+"?symbol="+tick+"&interval=1d&period1="+0+"&period2="+time;
-  console.log(url);
-  //url = "https://cors-anywhere.herokuapp.com/query1.finance.yahoo.com/v7/finance/chart/"+tick+"?symbol="+tick+"&interval=1d&period0="+starttime+"&period2="+time;
-  let response = await fetch(url);
-  var json;
-  if (response.ok) { // if HTTP-status is 200-299
-    // get the response body (the method explained below)
-    json = await response.json();
-  } else {
-    console.log("ERROR");
-    document.getElementById('stock').value="INVALID TICKER";
-    return;
+  var jsons = [];
+  for (var tick=0; tick<ticks.length; tick++){
+    url = "https://gentle-flower-8de4.lambdacors.workers.dev?https://query1.finance.yahoo.com/v7/finance/chart/"+ticks[tick]+"?symbol="+ticks[tick]+"&interval=1d&period1="+0+"&period2="+time;
+    console.log(url);
+    //url = "https://cors-anywhere.herokuapp.com/query1.finance.yahoo.com/v7/finance/chart/"+tick+"?symbol="+tick+"&interval=1d&period0="+starttime+"&period2="+time;
+    let response = await fetch(url);
+    var json;
+    if (response.ok) { // if HTTP-status is 200-299
+      // get the response body (the method explained below)
+      json = await response.json();
+    } else {
+      console.log("ERROR");
+      document.getElementById('stock').value="INVALID TICKER";
+      return;
+    }
+    jsons.push(json);
   }
-  var open = json.chart.result[0].indicators.quote[0].open;
-  console.log(open.length);
-  var close = json.chart.result[0].indicators.quote[0].open;
-  var high = json.chart.result[0].indicators.quote[0].open;
-  var low = json.chart.result[0].indicators.quote[0].open;
-  var volume = json.chart.result[0].indicators.quote[0].open;
-  z = [];
-  a = [];
-  b = [];
-  c = [];
-  d = [];
-  for (var p=0; p<close.length-2; p++){
-    z.push((open[p + 1] - open[p])/open[p]);
-    a.push((close[p + 1] - close[p])/close[p]);
-    b.push((high[p + 1] - high[p])/high[p]);
-    c.push((low[p + 1] - low[p])/low[p]);
-    d.push((volume[p + 1] - volume[p])/volume[p]);
+  var minlength = 999999;
+  for (var ind=0; ind<jsons.length; ind++){
+    if (jsons[ind].chart.result[0].indicators.quote[0].close.length<minlength){
+      minlength = jsons[ind].chart.result[0].indicators.quote[0].close.length;
+    }
+  }
+  for (var ind=0; ind<jsons.length; ind++){
+    jsons[ind] = jsons[ind].chart.result[0].indicators.quote[0].close.slice(-minlength);
+  }
+
+  var big = [];
+  for (var p=0; p<minlength-2; p++){
+    a = [];
+    for (var ind=0; ind<jsons.length; ind++){
+      close = jsons[ind];
+      a.push((close[p + 1] - close[p])/close[p]);
+    }
+    big.push(a);
+  }
+  console.log(big);
+  function argMax(array) {
+    return array.map((x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1];
   }
 
   const output = [];
-  for (var p=0; p<z.length-35; p++){
-    var ans = ((1+a[p+31])*(1+a[p+32])*(1+a[p+33])*(1+a[p+34])*(1+a[p+35]))>1;
-    var steps = [];
-    for (var i=0; i<30; i++){
-      var timelist = [];
-      timelist.push(z[p+i]);
-      timelist.push(a[p+i]);
-      timelist.push(b[p+i]);
-      timelist.push(c[p+i]);
-      timelist.push(d[p+i]);
-      steps.push(timelist);
-    }
+  for (var p=0; p<big.length-35; p++){
+    var list = [big[p+31], big[p+32], big[p+33], big[p+34], big[p+35]];
+    var ans = argMax(list.reduce((a, b) => a.map((c, i) => c + b[i])));
+    var steps = big.slice(p, p+30);
     if (Math.max.apply(Math, steps.flat())<10 && Math.min.apply(Math, steps.flat())>-10){
       output.push([steps, ans]);
     }
@@ -132,19 +134,19 @@
  }
  
  function createAndCompileModel(
-      hiddenSize, rnnType) {
- 
+      hiddenSize, rnnType, stock) {
+   const num = stock.split(" ").join("").split(",").length;
    const model = tf.sequential();
    switch (rnnType) {
      case 'Conv1D':
         model.add(tf.layers.gaussianNoise({
-          stddev: 0.001,
-          inputShape: [30, 5]
+          stddev: 0.004,
+          inputShape: [30, num]
         }));
         model.add(tf.layers.conv1d({
          filters: hiddenSize,
          kernelSize: 3,
-         inputShape: [30, 5],
+         inputShape: [30, num],
          activation: "relu",
          padding: "same"
         }));
@@ -154,45 +156,48 @@
           activation: "relu",
           padding: "same"
         }));
+        model.add(tf.layers.batchNormalization());
         model.add(tf.layers.maxPool1d({
           poolSize:2,
         }));
-        model.add(tf.layers.batchNormalization());
+        model.add(tf.layers.dropout({rate: 0.25}));
 
         model.add(tf.layers.conv1d({
-          filters: hiddenSize,
+          filters: hiddenSize*4,
           kernelSize: 3,
           activation: "relu",
           padding: "same"
         }));
+        model.add(tf.layers.batchNormalization());
         model.add(tf.layers.maxPool1d({
           poolSize:2,
         }));
+        model.add(tf.layers.dropout({rate: 0.25}));
         model.add(tf.layers.flatten());
        break;
      case 'LSTM':
        model.add(tf.layers.lstm({
          units: hiddenSize,
          recurrentInitializer: 'glorotNormal',
-         inputShape: [30, 5]
+         inputShape: [30, num]
        }));
        break;
      case 'SimpleRNN':
        model.add(tf.layers.simpleRNN({
          units: hiddenSize,
          recurrentInitializer: 'glorotNormal',
-         inputShape: [30, 5]
+         inputShape: [30, num]
        }));
        break;
      default:
        throw new Error(`Unsupported RNN type: '${rnnType}'`);
    }
-   model.add(tf.layers.dense({units: 32, activation: "tanh"}));
+   model.add(tf.layers.dense({units: 64, activation: "relu"}));
    model.add(tf.layers.dropout({rate: 0.4}));
-   model.add(tf.layers.dense({units: 1, activation: "sigmoid"}));
+   model.add(tf.layers.dense({units: num, activation: "softmax"}));
    model.compile({
-     loss: 'binaryCrossentropy',
-     optimizer: 'adam',
+     loss: 'sparseCategoricalCrossentropy',
+     optimizer: tf.train.adam(0.0002),
      metrics: ['accuracy']
    });
    console.log(model.summary());
@@ -213,7 +218,7 @@
         convertDataToTensors(this.testData);
     console.log(this.trainXs, this.trainYs);
     this.model = createAndCompileModel(
-        hiddenSize, rnnType);
+        hiddenSize, rnnType, stock);
 
    }
  

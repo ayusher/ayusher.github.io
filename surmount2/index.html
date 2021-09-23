@@ -57,7 +57,7 @@ limitations under the License.
     <section>
       <h3>Description</h3>
       <p>
-        This webapp trains a neural network to predict the price direction of a stock! You can now enhance your trading with the power of machine learning!
+        This webapp trains a neural network to manage a portfolio! You can now manage your allocations using AI!
       </p>
     </section>
 
@@ -74,27 +74,27 @@ limitations under the License.
         <div class="settings">
           <div class="setting">
             <span class="setting-label">NN Type:</span>
-            <select id="rnnType">
+            <select id="rnnType" title="What model architecture should be used?">
               <option value="Conv1D">Conv1D</option>
               <option value="LSTM">LSTM</option>
               <option value="SimpleRNN">SimpleRNN</option>
             </select>
           </div>
           <div class="setting">
-            <span class="setting-label">Stock ticker:</span>
-            <input id="stock" value="AAPL"></input>
+            <span class="setting-label">Stock tickers:</span>
+            <input id="stock" title="What comma separated tickers should the model manage?" onclick="document.getElementById('stock').style['width'] = 9*document.getElementById('stock').value.length +'px';" value="TQQQ, SPY, DIA, IWM, IVE, EFA, EFA, XLP, IAU, SLV, USO, SQQQ, JNK"></input>
           </div>
           <div class="setting">
             <span class="setting-label">Hidden Layer Size:</span>
-            <input id="hiddenSize" value="16"></input>
+            <input id="hiddenSize" title="How many neurons should the network have in each layer?" value="48"></input>
           </div>
           <div class="setting">
             <span class="setting-label">Batch Size:</span>
-            <input id="batchSize" value="128"></input>
+            <input id="batchSize" title="How many samples should the model keep in each batch?" value="64"></input>
           </div>
           <div class="setting">
             <span class="setting-label">Train Iterations:</span>
-            <input id="trainIterations" value="100"></input>
+            <input id="trainIterations" title="How many iterations should the model learn for?" value="50"></input>
           </div>
         </div>
 
