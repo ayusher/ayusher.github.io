@@ -205,6 +205,79 @@
  }
  
  class AdditionRNNDemo {
+   async backtest() {
+    function dot_product(vector1, vector2) {
+      console.log(vector1, vector2);
+      let result = 0;
+      for (let i = 0; i < 3; i++) {
+        result += vector1[i] * vector2[i];
+      }
+      return result;
+    }
+    var preds = await this.model.predict(this.testXs);
+    var preds2 = preds.arraySync();
+    var vallist = [100000];
+    //dot = (a, b) => a.map((x, i) => a[i] * b[i]).reduce((m, n) => m + n);
+    for(var i=0; i<preds2.length-1; i++){
+      vallist.push(vallist.slice(-1)[0]*(1+dot_product(preds2[i], this.testXs.arraySync()[i+1].slice(-1)[0])));
+    }
+
+
+    // BASELINE
+    var time = +new Date;
+    time = Math.floor(time/1000);
+    url = "https://gentle-flower-8de4.lambdacors.workers.dev?https://query1.finance.yahoo.com/v7/finance/chart/"+"SPY"+"?symbol="+"SPY"+"&interval=1d&period1="+0+"&period2="+time;
+    let response = await fetch(url);
+    var json;
+    if (response.ok) { // if HTTP-status is 200-299
+      // get the response body (the method explained below)
+      json = await response.json();
+    } else {
+      console.log("ERROR");
+      document.getElementById('stock').value="INVALID TICKER";
+      return;
+    }
+    var closes = json.chart.result[0].indicators.quote[0].close.slice(-1*vallist.length)
+    var firstnum = closes[0];
+    for (var i =0; i<closes.length; i++){
+      closes[i] = closes[i]/firstnum*vallist[0];
+    }
+
+    console.log(vallist);
+    const data = {
+      labels: [...Array(vallist.length).keys()],
+      datasets: [
+      {
+        label: 'AI portfolio value',
+        backgroundColor: 'rgb(52, 76, 235)',
+        borderColor: 'rgb(52, 76, 235)',
+        data: vallist,
+      },
+      {
+        label: 'SPY baseline',
+        backgroundColor: 'rgb(84, 84, 84)',
+        borderColor: 'rgb(84, 84, 84)',
+        data: closes,
+      }
+    ]
+    };
+    const config = {
+      type: 'line',
+      data: data,
+      options: { 
+        legend: {display: false}
+      }
+    };
+
+    if (typeof this.myChart !== 'undefined') {
+      this.myChart.destroy();
+    }
+    this.myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+    return;
+   }
 
    async getdata(rnnType, hiddenSize, stock) {
     console.log('Generating training data');
@@ -307,7 +380,7 @@
    }
  }
  
- async function runAdditionRNNDemo() {
+ async function runAdditionRNNDemo(demo) {
    document.getElementById('trainModel').addEventListener('click', async () => {
       const stock = document.getElementById('stock').value;
      const rnnTypeSelect = document.getElementById('rnnType');
@@ -318,11 +391,11 @@
      const batchSize = +(document.getElementById('batchSize')).value;
      const trainIterations = +(document.getElementById('trainIterations')).value;
  
-     const demo =
-         new AdditionRNNDemo();
+
       await demo.getdata(rnnType, hiddenSize, stock);
       await demo.train(trainIterations, batchSize);
+      await demo.backtest();
    });
  }
- 
- runAdditionRNNDemo();
+ const demo = new AdditionRNNDemo();
+ runAdditionRNNDemo(demo);
