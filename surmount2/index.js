@@ -76,7 +76,24 @@
   const output = [];
   for (var p=0; p<big.length-35; p++){
     var list = [big[p+31], big[p+32], big[p+33], big[p+34], big[p+35]];
-    var ans = argMax(list.reduce((a, b) => a.map((c, i) => c + b[i])));
+    var prods = new Array(big[0].length).fill(1);
+    var dd = new Array(big[0].length).fill(0);
+    for(var x = 0; x<list.length; x++){
+      for (var j =0; j<prods.length; j++){
+        if (list[x][j]<0){
+          dd[j] = dd[j]+list[x][j];
+        }
+        prods[j]=prods[j]*(1+list[x][j]);
+      }
+    }
+    /*
+    for(var i =0; i<prods.length; i++){
+      prods[i] = prods[i];
+    }
+    */
+    var ans = argMax(prods);
+    //var ans = argMax(list.reduce((a, b) => a.map((c, i) => c + b[i])));
+    //console.log(list.reduce((a, b) => a.map((c, i) => c + b[i])));
     var steps = big.slice(p, p+30);
     if (Math.max.apply(Math, steps.flat())<10 && Math.min.apply(Math, steps.flat())>-10){
       output.push([steps, ans]);
@@ -160,10 +177,10 @@
         model.add(tf.layers.maxPool1d({
           poolSize:2,
         }));
-        model.add(tf.layers.dropout({rate: 0.25}));
+        model.add(tf.layers.dropout({rate: 0.3}));
 
         model.add(tf.layers.conv1d({
-          filters: hiddenSize*4,
+          filters: hiddenSize*2,
           kernelSize: 3,
           activation: "relu",
           padding: "same"
@@ -172,7 +189,7 @@
         model.add(tf.layers.maxPool1d({
           poolSize:2,
         }));
-        model.add(tf.layers.dropout({rate: 0.25}));
+        model.add(tf.layers.dropout({rate: 0.3}));
         model.add(tf.layers.flatten());
        break;
      case 'LSTM':
