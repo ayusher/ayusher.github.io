@@ -1,30 +1,9 @@
 /**
  * @license
- * Copyright 2018 Google LLC. All Rights Reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * =============================================================================
+ * Copyright 2021 Surmount AI. All Rights Reserved.
  */
 
-/**
- * Addition RNN example.
- *
- * Based on Python Keras example:
- *   https://github.com/keras-team/keras/blob/master/examples/addition_rnn.py
- */
-
-
- 
- async function generateData(invert, stock) {
+ async function generateData(invert, stock, agg) {
   //var tick = stock;
   document.getElementById('stock').style["width"] = 9*document.getElementById('stock').value.length +"px";
 
@@ -82,6 +61,7 @@
       for (var j =0; j<prods.length; j++){
         if (list[x][j]<0){
           dd[j] = dd[j]+list[x][j];
+          prods[j] = prods[j]*(1+list[x][j])**(1-agg/100);
         }
         prods[j]=prods[j]*(1+list[x][j]);
       }
@@ -209,8 +189,8 @@
      default:
        throw new Error(`Unsupported RNN type: '${rnnType}'`);
    }
-   model.add(tf.layers.dense({units: 64, activation: "relu"}));
-   model.add(tf.layers.dropout({rate: 0.4}));
+   model.add(tf.layers.dense({units: 32, activation: "relu"}));
+   model.add(tf.layers.dropout({rate: 0.3}));
    model.add(tf.layers.dense({units: num, activation: "softmax"}));
    model.compile({
      loss: 'sparseCategoricalCrossentropy',
@@ -220,9 +200,17 @@
    console.log(model.summary());
    return model;
  }
- 
+
+ function getRandomColor() {
+  var letters = '0123456789ABCDEF'.split('');
+  var color = '#';
+  for (var i = 0; i < 6; i++ ) {
+      color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
  class AdditionRNNDemo {
-   async backtest() {
+   async backtest(stock) {
     function dot_product(vector1, vector2) {
       console.log(vector1, vector2);
       let result = 0;
@@ -260,7 +248,25 @@
       closes[i] = closes[i]/firstnum*vallist[0];
     }
 
+    var li = [];
+    for(var a = 0; a<stock.length; a++){
+      li.push(getRandomColor());
+    }
     console.log(vallist);
+    const data2 = {
+      labels: stock.split(" ").join("").split(","),
+      datasets: [{
+        label: 'Realtime portfolio allocation',
+        data: preds2[preds2.length-1],
+        backgroundColor: li
+      }]
+    }
+
+    const config2 = {
+      type: 'doughnut',
+      data: data2,
+    };
+
     const data = {
       labels: [...Array(vallist.length).keys()],
       datasets: [
@@ -289,16 +295,23 @@
     if (typeof this.myChart !== 'undefined') {
       this.myChart.destroy();
     }
+    if (typeof this.pieChart !== 'undefined') {
+      this.pieChart.destroy();
+    }
     this.myChart = new Chart(
       document.getElementById('myChart'),
       config
     );
+    this.pieChart = new Chart(
+      document.getElementById('pieChart'),
+      config2
+    );
     return;
    }
 
-   async getdata(rnnType, hiddenSize, stock) {
+   async getdata(rnnType, hiddenSize, stock, agg) {
     console.log('Generating training data');
-    const data = await generateData(false, stock)
+    const data = await generateData(false, stock, agg)
     const split = Math.floor(data.length * 0.9);
     this.trainData = data.slice(0, split);
     this.testData = data.slice(split);
@@ -398,6 +411,7 @@
  }
  
  async function runAdditionRNNDemo(demo) {
+   
    document.getElementById('trainModel').addEventListener('click', async () => {
       const stock = document.getElementById('stock').value;
      const rnnTypeSelect = document.getElementById('rnnType');
@@ -407,11 +421,12 @@
      const hiddenSize = +(document.getElementById('hiddenSize')).value;
      const batchSize = +(document.getElementById('batchSize')).value;
      const trainIterations = +(document.getElementById('trainIterations')).value;
- 
-
-      await demo.getdata(rnnType, hiddenSize, stock);
+     const aggressiveness = +(document.getElementById('aggressiveness')).value;
+     document.getElementById('results').style.display = "block";
+      await demo.getdata(rnnType, hiddenSize, stock, aggressiveness);
       await demo.train(trainIterations, batchSize);
-      await demo.backtest();
+      await demo.backtest(stock);
+      document.getElementById('backtest').style.display = "block";
    });
  }
  const demo = new AdditionRNNDemo();

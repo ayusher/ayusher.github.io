@@ -8596,3 +8596,13 @@
     border: 1px solid #dedede;
     border-radius: 4px;
     font-size: 110%; }
+  
+  input[type='range']:focus { 
+    outline: none;
+    border: 0; 
+    box-shadow: none;
+}
+
+option {
+  background-color: #101c42;
+}

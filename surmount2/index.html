@@ -87,16 +87,37 @@ limitations under the License.
           </div>
           <div class="setting">
             <span class="setting-label">Hidden Layer Size:</span>
-            <input id="hiddenSize" title="How many neurons should the network have in each layer?" value="48"></input>
+            <select id="hiddenSize" title="How many neurons should the network have in each layer?">
+              <option value="16">16</option>
+              <option value="32">32</option>
+              <option selected="selected" value="64">64</option>
+              <option value="128">128</option>
+            </select>
           </div>
           <div class="setting">
             <span class="setting-label">Batch Size:</span>
-            <input id="batchSize" title="How many samples should the model keep in each batch?" value="64"></input>
+            <select id="batchSize" title="How many samples should the model keep in each batch?">
+              <option value="16">16</option>
+              <option value="32">32</option>
+              <option selected="selected" value="64">64</option>
+              <option value="128">128</option>
+            </select>
           </div>
           <div class="setting">
             <span class="setting-label">Train Iterations:</span>
-            <input id="trainIterations" title="How many iterations should the model learn for?" value="50"></input>
+            <select id="trainIterations" title="How many iterations should the model learn for?">
+              <option value="25">25</option>
+              <option selected="selected" value="50">50</option>
+              <option value="100">100</option>
+              <option value="200">200</option>
+            </select>
           </div>
+          <br>
+          <div class="setting">
+            <span class="setting-label">Model Aggressiveness: </span>
+            <input style="padding: 0; height:45px; vertical-align: middle;" type="range" id="aggressiveness" name="aggressiveness" min="0" max="100">
+          </div>
+
         </div>
 
         <div>
@@ -108,7 +129,7 @@ limitations under the License.
 
 
       <section>
-        <div style="border-radius: 10px; background-color:white;">
+        <div style="display: none; border-radius: 10px; background-color:white;" id="results">
           <h3 style="color: black; text-align: center; padding-top:10px;">Training Progress</h3>
           <p id="trainStatus" style="color: black; text-align: center; padding: 0"></p>
           <div class='with-cols' style="text-align: center;">
@@ -116,9 +137,16 @@ limitations under the License.
             <div id="accuracyChart"></div>
             <!-- <div id="examplesPerSecCanvas"></div> -->
           </div>
-          <h3 style="color: black; text-align: center; padding-top:10px;">Backtest Results</h3>
-          <div>
-            <canvas id="myChart"></canvas>
+          <div style="display: none" id="backtest">
+            <h3 style="color: black; text-align: center; padding-top:10px;">Backtest Results</h3>
+            <div>
+              <canvas id="myChart"></canvas>
+            </div>
+
+            <h3 style="color: black; text-align: center; padding-top:10px;">Realtime AI Portfolio Allocation</h3>
+            <div>
+              <canvas id="pieChart"></canvas>
+            </div>
           </div>
         </div>
       </section>
