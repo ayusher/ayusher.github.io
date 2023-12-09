@@ -68,7 +68,7 @@ async function reval(t){
 }
 
 async function run_tickers(){
-    const model = await tf.loadGraphModel('https://www.ayushrautwar.com/tfjs/model/model.json');
+    const model = await tf.loadGraphModel('https://ayusher.github.io/tfjs/model/model.json');
     var tickers = ["AAPL", "TSLA", "MSFT", "FB"];
     var l;
     var n;
